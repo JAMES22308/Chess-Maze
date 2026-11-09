@@ -138,16 +138,16 @@ public sealed class Assessment1GamePersistenceAdapter(
             return new(SavedGameLoadStatus.InvalidData, null);
         }
     }
-
+/*
     private static BCIT615.Assessment1.GamePlayer.MoveResult GetSuccess()
     {
         return BCIT615.Assessment1.GamePlayer.MoveResult.Success;
     }
-
+*/
     private static void ValidateBoard(AssessmentGamePlayer game)
     {
         if (game.StartPosition != new AssessmentPosition(5, 0) ||
-            game.TargetPosition != new AssessmentPosition(0, 3) ||
+            game.TargetPosition != new AssessmentPosition(0, 5) ||
             game.GetPieceAt(new AssessmentPosition(5, 0)) != AssessmentPieceType.Rook ||
             game.GetPieceAt(new AssessmentPosition(5, 3)) != AssessmentPieceType.Bishop ||
             game.GetPieceAt(new AssessmentPosition(3, 5)) != AssessmentPieceType.Knight ||

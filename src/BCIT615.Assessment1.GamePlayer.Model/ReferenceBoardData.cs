@@ -10,7 +10,7 @@ public static class ReferenceBoardData
     public const int Columns = 6;
 
     public static Position Start => new Position(5, 0);
-    public static Position Target => new Position(0, 3);
+    public static Position Target => new Position(0, 5);
 
     public static IReadOnlyDictionary<Position, PieceType> Pieces { get; } =
         new ReadOnlyDictionary<Position, PieceType>(
