@@ -81,16 +81,40 @@
                              FontSize="12"/>
                 </StackPanel>
 
-                <Button x:Name="RestartButton"
-                        Grid.Column="2"
-                        Content="Restart"
-                        Click="RestartButton_Click"
-                        Background="#6366F1"
-                        Foreground="White"
-                        FontWeight="Bold"
-                        Padding="15,8"
-                        Margin="12,0,0,0"
-                        VerticalAlignment="Center"/>
+                <StackPanel Grid.Column="2"
+            Margin="12,0,0,0"
+            VerticalAlignment="Center">
+
+                    <TextBox x:Name="SaveNameTextBox"
+             Text="MyGame"
+             Padding="8"
+             Margin="0,0,0,8"
+             MinWidth="110"/>
+
+                    <Button Content="Save Game"
+            Click="SaveButton_Click"
+            Background="#16A34A"
+            Foreground="White"
+            FontWeight="Bold"
+            Padding="12,8"
+            Margin="0,0,0,6"/>
+
+                    <Button Content="Load Game"
+            Click="LoadButton_Click"
+            Background="#2563EB"
+            Foreground="White"
+            FontWeight="Bold"
+            Padding="12,8"
+            Margin="0,0,0,6"/>
+
+                    <Button x:Name="RestartButton"
+            Content="Restart"
+            Click="RestartButton_Click"
+            Background="#6366F1"
+            Foreground="White"
+            FontWeight="Bold"
+            Padding="12,8"/>
+                </StackPanel>
             </Grid>
         </Border>
     </Grid>

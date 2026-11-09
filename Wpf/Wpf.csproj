@@ -10,6 +10,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\src\BCIT615.Assessment1.GamePlayer.Model\BCIT615.Assessment1.GamePlayer.Model.csproj" />
+    <ProjectReference Include="..\src\ChessMaze.Model\ChessMaze.Model.csproj" />
+    <ProjectReference Include="..\src\ChessMaze.Persistence\ChessMaze.Persistence.csproj" />
   </ItemGroup>
 
 </Project>

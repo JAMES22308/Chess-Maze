@@ -4,19 +4,25 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using BCIT615.Assessment1.GamePlayer;
 using BCIT615.Assessment1.GamePlayer.Model;
+using ChessMaze.Persistence;
 
 namespace Wpf;
 
 public partial class MainWindow : Window
 {
-    private readonly GamePlayer game = new GamePlayer();
+    //private readonly GamePlayer game = new GamePlayer();
+    private GamePlayer game = new GamePlayer();
+    private readonly Assessment1GamePersistenceAdapter persistence;
 
     public MainWindow()
     {
         InitializeComponent();
+
+        persistence = new Assessment1GamePersistenceAdapter(
+            new EfSavedGameRepository(new GameDbContextFactory()));
+
         CreateBoard();
         RefreshBoard();
-
         StatusText.Text = "Select a destination square.";
     }
 
@@ -169,5 +175,81 @@ public partial class MainWindow : Window
         int row = ReferenceBoardData.Rows - position.Row;
 
         return $"{column}{row}";
+    }
+
+
+    private async void SaveButton_Click(object sender, RoutedEventArgs e)
+    {
+        string name = SaveNameTextBox.Text.Trim();
+
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            StatusText.Text = "Please enter a save name.";
+            return;
+        }
+
+        try
+        {
+            await persistence.SaveAsync(name, game);
+
+            StatusText.Text = $"Game '{name}' saved successfully.";
+        }
+        catch (Exception ex)
+        {
+            StatusText.Text = "Could not save the game.";
+
+            MessageBox.Show(
+                ex.Message,
+                "Save Error",
+                MessageBoxButton.OK,
+                MessageBoxImage.Error);
+        }
+    }
+
+    private async void LoadButton_Click(object sender, RoutedEventArgs e)
+    {
+        string name = SaveNameTextBox.Text.Trim();
+
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            StatusText.Text = "Please enter a save name.";
+            return;
+        }
+
+        try
+        {
+            var result = await persistence.LoadAsync(name);
+
+            switch (result.Status)
+            {
+                case SavedGameLoadStatus.Loaded:
+                    game = result.Game!;
+                    RefreshBoard();
+                    StatusText.Text = $"Game '{name}' loaded successfully.";
+                    break;
+
+                case SavedGameLoadStatus.NotFound:
+                    StatusText.Text = $"No saved game named '{name}' was found.";
+                    break;
+
+                case SavedGameLoadStatus.InvalidData:
+                    StatusText.Text = "The saved game contains invalid data.";
+                    break;
+
+                case SavedGameLoadStatus.Unavailable:
+                    StatusText.Text = "The saved game database is unavailable.";
+                    break;
+            }
+        }
+        catch (Exception ex)
+        {
+            StatusText.Text = "Could not load the game.";
+
+            MessageBox.Show(
+                ex.Message,
+                "Load Error",
+                MessageBoxButton.OK,
+                MessageBoxImage.Error);
+        }
     }
 }
